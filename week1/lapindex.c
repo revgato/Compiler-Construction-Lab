@@ -3,12 +3,10 @@
 #include <stdlib.h>
 #define max_len 100
 #define max_num 1000
-"Bsort"
+
 void word_normalize(char *word);
 int isName(char *word, char *word_prev);
 void updaterow(FILE *ptr, int *row);
-static int myCompare(void* a, void* b);
-void sort(char** arr, int n);
 int main()
 {
     FILE *ptr, *ptr_stop;
@@ -16,10 +14,11 @@ int main()
     char word[max_len];
     char words[max_num][max_len];
     char words_stop[max_num][max_len];
+    char words_prev[max_num][max_len];
     char c;
     int words_count[max_num] = {0};
     int words_index[max_num][max_len] = {0};
-    int i, j;
+    int i, j, index;
     int count = 0, count_stop = 0, row = 1;
     ptr = fopen("vanban.txt", "r");
     if (ptr == NULL)
@@ -48,8 +47,8 @@ int main()
 
     while (fscanf(ptr, "%s", word) == 1)
     {
-        //Check tên riêng
-        if (isName(word, word_prev) == 1) 
+        // Check tên riêng
+        if (isName(word, word_prev) == 1)
         {
             updaterow(ptr, &row);
             strcpy(word_prev, word);
@@ -58,7 +57,7 @@ int main()
         //
 
         strcpy(word_prev, word);
-        //Chuẩn hoá word
+        // Chuẩn hoá word
         word_normalize(word);
         //
 
@@ -113,14 +112,41 @@ int main()
         }
         updaterow(ptr, &row);
     }
-    sort(words, sizeof(words) / sizeof(words[0]));
+
+    // Sắp xếp lại mảng theo thứ tự từ điển bằng bubble sort
+    //Mảng words_prev sẽ lưu mảng words khi chưa sắp xếp
     for (i = 0; i < count; i++)
     {
-        printf("%s %d", words[i], words_count[i]);
-        j = 0;
-        while (words_index[i][j] != 0)
+        strcpy(words_prev[i], words[i]);
+    }
+    
+    //Sắp xếp words
+    for (i = 0; i < count; i++)
+    {
+        for (j = 0; j < count - 1 - i; j++)
         {
-            printf(",%d", words_index[i][j++]);
+            if (strcmp(words[j], words[j + 1]) > 0)
+            {
+                // swap words[j] and words[j+1]
+                strcpy(word_prev, words[j]);
+                strcpy(words[j], words[j + 1]);
+                strcpy(words[j + 1], word_prev);
+            }
+        }
+    }
+    //In words và index
+    for (i = 0; i < count; i++)
+    {
+        printf("%s ", words[i]);
+        for(index = 0; index < count; index++){         //Tìm index của words[i] trong mảng words_index thông qua words_prev
+            if(strcmp(words[i], words_prev[index])==0){
+                break;
+            }
+        }
+        j = 0;
+        while (words_index[index][j] != 0)
+        {
+            printf(",%d", words_index[index][j++]);
         }
         printf("\n");
     }
@@ -168,19 +194,4 @@ void updaterow(FILE *ptr, int *row)
     { // Neu c == '\n' thì tăng biến đếm dòng lên 1
         (*row)++;
     }
-}
-
-static int myCompare(void* a, void* b)
-{
-  
-    // setting up rules for comparison
-    return strcmp(*(char**)a, *(char**)b);
-}
-  
-// Function to sort the array
-void sort(char** arr, int n)
-{
-    // calling qsort function to sort the array
-    // with the help of Comparator
-    qsort(arr, n, sizeof(char*), myCompare);
 }
