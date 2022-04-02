@@ -60,7 +60,10 @@ int main()
         // Chuẩn hoá word
         word_normalize(word);
         //
-
+        if(strlen(word) ==0) {          //Nếu word là 1 số hoặc 1 dãy full kí tự lạ thì strlen = 0
+            updaterow(ptr, &row);
+            continue;
+        }
         // Check words_stop
         j = 0;
         for (i = 0; i < count_stop; i++)
@@ -143,6 +146,7 @@ int main()
                 break;
             }
         }
+        printf("%d", words_count[index]);
         j = 0;
         while (words_index[index][j] != 0)
         {
