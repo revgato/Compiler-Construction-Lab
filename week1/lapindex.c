@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #define max_len 100
 #define max_num 1000
+"Bsort"
 void word_normalize(char *word);
 int isName(char *word, char *word_prev);
 void updaterow(FILE *ptr, int *row);
