@@ -2,7 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #define max_len 100
-#define max_num 1000
+#define max_num 10000
+#define filename "alice30.txt"
 
 void word_normalize(char *word);
 int isName(char *word, char *word_prev);
@@ -20,7 +21,7 @@ int main()
     int words_index[max_num][max_len] = {0};
     int i, j, index;
     int count = 0, count_stop = 0, row = 1;
-    ptr = fopen("vanban.txt", "r");
+    ptr = fopen(filename, "r");
     if (ptr == NULL)
     {
         printf("Cannot open file vanban.txt!\n");
@@ -194,8 +195,12 @@ void updaterow(FILE *ptr, int *row)
 {
     char c;
     fscanf(ptr, "%c", &c); // Check kí tự tiếp theo có phải là '\n' không
-    if (c == '\n')
+    if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))){
+        fseek(ptr, -1, SEEK_CUR);
+    }
+    else if (c == '\n')
     { // Neu c == '\n' thì tăng biến đếm dòng lên 1
         (*row)++;
+        updaterow(ptr, row);
     }
 }
