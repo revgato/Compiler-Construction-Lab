@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define max_len 100
+#define max_len 5000
 #define max_num 10000
 #define filename "alice30.txt"
 
@@ -11,14 +11,11 @@ void updaterow(FILE *ptr, int *row);
 int main()
 {
     FILE *ptr, *ptr_stop;
-    char word_prev[max_len];
-    char word[max_len];
-    char words[max_num][max_len];
-    char words_stop[max_num][max_len];
-    char words_prev[max_num][max_len];
+    char *word_prev, *word;
+    char **words, **words_stop, **words_prev;
+    int *words_count;
+    int **words_index;
     char c;
-    int words_count[max_num] = {0};
-    int words_index[max_num][max_len] = {0};
     int i, j, index;
     int count = 0, count_stop = 0, row = 1;
     ptr = fopen(filename, "r");
@@ -33,7 +30,35 @@ int main()
         printf("Cannot open file stopw.txt!\n");
         return 1;
     }
+    // Cấp phát các mảng
+    words = (char **)calloc(max_num, sizeof(char *));
 
+    for (i = 0; i < max_num; i++)
+    {
+        words[i] = (char *)calloc(max_len, sizeof(char));
+    }
+    words_stop = (char **)calloc(max_num, sizeof(char *));
+
+    for (i = 0; i < max_num; i++)
+    {
+        words_stop[i] = (char *)calloc(max_len, sizeof(char));
+    }
+    words_prev = (char **)calloc(max_num, sizeof(char *));
+
+    for (i = 0; i < max_num; i++)
+    {
+        words_prev[i] = (char *)calloc(max_len, sizeof(char));
+    }
+    words_index = (int **)calloc(max_num, sizeof(int *));
+
+    for (i = 0; i < max_num; i++)
+    {
+        words_index[i] = (int *)calloc(max_len, sizeof(int));
+    }
+    word_prev = (char*) calloc(max_len, sizeof(char));
+    word = (char*) calloc(max_len, sizeof(char));
+    words_count = (int*) calloc(max_num, sizeof(int));
+    
     // Doc file stopw.txt va luu ds tu vao mang words_stop
     while (fscanf(ptr_stop, "%s", word) == 1)
     {
@@ -61,7 +86,8 @@ int main()
         // Chuẩn hoá word
         word_normalize(word);
         //
-        if(strlen(word) ==0) {          //Nếu word là 1 số hoặc 1 dãy full kí tự lạ thì strlen = 0
+        if (strlen(word) == 0)
+        { // Nếu word là 1 số hoặc 1 dãy full kí tự lạ thì strlen = 0
             updaterow(ptr, &row);
             continue;
         }
@@ -118,13 +144,13 @@ int main()
     }
 
     // Sắp xếp lại mảng theo thứ tự từ điển bằng bubble sort
-    //Mảng words_prev sẽ lưu mảng words khi chưa sắp xếp
+    // Mảng words_prev sẽ lưu mảng words khi chưa sắp xếp
     for (i = 0; i < count; i++)
     {
         strcpy(words_prev[i], words[i]);
     }
-    
-    //Sắp xếp words
+
+    // Sắp xếp words
     for (i = 0; i < count; i++)
     {
         for (j = 0; j < count - 1 - i; j++)
@@ -138,12 +164,14 @@ int main()
             }
         }
     }
-    //In words và index
+    // In words và index
     for (i = 0; i < count; i++)
     {
         printf("%s ", words[i]);
-        for(index = 0; index < count; index++){         //Tìm index của words[i] trong mảng words_index thông qua words_prev
-            if(strcmp(words[i], words_prev[index])==0){
+        for (index = 0; index < count; index++)
+        { // Tìm index của words[i] trong mảng words_index thông qua words_prev
+            if (strcmp(words[i], words_prev[index]) == 0)
+            {
                 break;
             }
         }
@@ -157,6 +185,32 @@ int main()
     }
     fclose(ptr);
     fclose(ptr_stop);
+    // Giải phóng mảng
+    for (i = 0; i < max_num; i++)
+    {
+        free(words[i]);
+    }
+    free(words);
+    for (i = 0; i < max_num; i++)
+    {
+        free(words_stop[i]);
+    }
+    free(words_stop);
+    for (i = 0; i < max_num; i++)
+    {
+        free(words_prev[i]);
+    }
+
+    free(words_prev);
+    for (i = 0; i < max_num; i++)
+    {
+        free(words_index[i]);
+    }
+
+    free(words_index);
+    free(word);
+    free(word_prev);
+    free(words_count);
     return 0;
 }
 void word_normalize(char *word) // Chuyển đổi chữ hoa thành chữ thường, xoá kí tự lạ
@@ -195,7 +249,8 @@ void updaterow(FILE *ptr, int *row)
 {
     char c;
     fscanf(ptr, "%c", &c); // Check kí tự tiếp theo có phải là '\n' không
-    if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))){
+    if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')))
+    {
         fseek(ptr, -1, SEEK_CUR);
     }
     else if (c == '\n')
