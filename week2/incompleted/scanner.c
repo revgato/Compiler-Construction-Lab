@@ -103,6 +103,10 @@ Token* getToken(void) {
       readChar();
       skipComment();
       return getToken();
+    } else {
+      token = makeToken(SB_LPAR, lineNo, colNo);
+      readchar();
+      return token;
     }
     // ....
   default:
