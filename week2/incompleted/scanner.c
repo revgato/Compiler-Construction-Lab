@@ -43,6 +43,20 @@ void skipComment() {    //Commment start (*, end *)
 
 Token* readIdentKeyword(void) {
   // TODO
+  int i = 0;
+  Token *token = makeToken(TK_IDENT, lineNo, colNo);
+  while(charCodes[currentChar] == CHAR_LETTER){
+    token->string[i] = currentChar;
+    token->string[++i] = '\0';
+    readChar();
+  }
+  tokenType type = checkKeyword(token->string);
+  if (type == TK_NONE){
+    return token;
+  } else {
+    token->tokenType = type;
+    return token;
+  }
 }
 
 Token* readNumber(void) {
