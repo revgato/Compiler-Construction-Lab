@@ -20,14 +20,25 @@ extern int currentChar;
 extern CharCode charCodes[];
 
 /***************************************************************/
+char readNextChar(){            //Kiểm tra kí tự phía trước là gì
+  char c = getc(inputStream);
+  fseek(inputStream, -1, SEEK_CUR);
+  return c;
+}
 
 void skipBlank() {
   while (charCodes[currentChar] == CHAR_SPACE)
     readChar();
 }
 
-void skipComment() {
+void skipComment() {    //Commment start (*, end *)
   // TODO
+  readChar();
+  while(charCodes[currentChar] != CHAR_TIMES)
+    readChar();
+  if(charCodes[currentChar] != CHAR_RPAR){
+    skipComment();
+  }
 }
 
 Token* readIdentKeyword(void) {
@@ -87,6 +98,12 @@ Token* getToken(void) {
     return token;
     // ....
     // TODO
+  case CHAR_LPAR:
+    if (charCodes[readNextChar()] == CHAR_TIMES){
+      readChar();
+      skipComment();
+      return getToken();
+    }
     // ....
   default:
     token = makeToken(TK_NONE, lineNo, colNo);
