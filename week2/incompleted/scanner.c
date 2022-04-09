@@ -26,7 +26,7 @@ void skipBlank() {
     readChar();
 }
 
-void skipComment() { //mian
+void skipComment() {
   // TODO
 }
 
