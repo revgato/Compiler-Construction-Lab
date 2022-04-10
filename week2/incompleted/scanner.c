@@ -21,11 +21,11 @@ extern FILE *inputStream;
 extern CharCode charCodes[];
 
 /***************************************************************/
-int readNextChar(){            //Kiểm tra kí tự phía trước là gì
-  int c = getc(inputStream);
-  fseek(inputStream, -1, SEEK_CUR);
-  return c;
-}
+// int readNextChar(){            //Kiểm tra kí tự phía trước là gì
+//   int c = getc(inputStream);
+//   fseek(inputStream, -1, SEEK_CUR);
+//   return c;
+// }
 
 
 void skipBlank() {
@@ -39,6 +39,7 @@ void skipComment() {    //Commment start (*, end *)
   while(charCodes[currentChar] != CHAR_TIMES && (currentChar != EOF)){
     readChar();
   }
+  readChar();
   if(currentChar == EOF){
     error(ERR_ENDOFCOMMENT, lineNo, colNo);
   }
@@ -77,6 +78,7 @@ Token* readNumber(void) {
     token->string[++i] = '\0';
     readChar();
   }
+  token->value = atoi(token->string);
   return token;
 }
 
@@ -129,21 +131,51 @@ Token* getToken(void) {
     return token;
     // ....
     // TODO
-  case CHAR_LPAR:
+  case CHAR_LPAR:   //Dấu ( thì có 3 trường hợp (* và (. và  (
+    token = makeToken(SB_LPAR, lineNo, colNo);    //Ban đầu là ( 
     readChar();
-    if (charCodes[currentChar] == CHAR_TIMES){
+    if (charCodes[currentChar] == CHAR_TIMES){    //Nếu kí tự tiếp theo là * thì sẽ là (*
       skipComment();
       return getToken();
-    } else {
-      token = makeToken(SB_LPAR, lineNo, colNo);
+    } else if(charCodes[currentChar] == CHAR_PERIOD){     //Chưa xử lý mảng
+      token->tokenType = SB_LSEL;
       readChar();
-      return token;
-    }
-  case CHAR_SEMICOLON:
+    }    
+    return token;
+
+  case CHAR_SEMICOLON:  //Dấu ;
     token = makeToken(SB_SEMICOLON, lineNo, colNo);
     readChar(); 
     return token;
-    // ....
+  case CHAR_COLON:    //Dấu :
+    token = makeToken(SB_COLON, lineNo, colNo);
+    readChar();
+    if(charCodes[currentChar] == CHAR_EQ){    //Nếu kí tự tiếp theo là '=' thì sẽ là := (SB_ASSIGN)
+      token->tokenType = SB_ASSIGN;
+      readChar();
+    }
+    return token;
+  case CHAR_RPAR:   //Dấu )
+    token = makeToken(SB_RPAR, lineNo, colNo);
+    readChar();
+    return token;
+  case CHAR_EQ:     //Dấu =
+    token = makeToken(SB_EQ, lineNo, colNo);
+    readChar();
+    return token;
+  case CHAR_TIMES:  //Dấu *
+    token = makeToken(SB_TIMES, lineNo, colNo);
+    readChar();
+    return token;
+  case CHAR_MINUS:  //Dấu -
+    token = makeToken(SB_MINUS, lineNo, colNo);
+    readChar();
+    return token;  
+  case CHAR_PERIOD: //Dấu .
+    token = makeToken(SB_PERIOD, lineNo, colNo);
+    readChar();
+    return token; 
+  //..
   default:
     token = makeToken(TK_NONE, lineNo, colNo);
     error(ERR_INVALIDSYMBOL, lineNo, colNo);
