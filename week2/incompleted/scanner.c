@@ -21,12 +21,9 @@ extern FILE *inputStream;
 extern CharCode charCodes[];
 
 /***************************************************************/
-// int readNextChar(){            //Kiểm tra kí tự phía trước là gì
-//   int c = getc(inputStream);
-//   fseek(inputStream, -1, SEEK_CUR);
-//   return c;
-// }
 
+
+//Chú ý: file example3,4,5,6,7 có định dạng CRLF, cần phải convert về LF
 
 void skipBlank() {
   while (charCodes[currentChar] == CHAR_SPACE)
@@ -36,6 +33,7 @@ void skipBlank() {
 void skipComment() {    //Commment start (*, end *)
   // TODO
   readChar();
+
   while(charCodes[currentChar] != CHAR_TIMES && (currentChar != EOF)){
     readChar();
   }
@@ -43,6 +41,7 @@ void skipComment() {    //Commment start (*, end *)
   if(currentChar == EOF){
     error(ERR_ENDOFCOMMENT, lineNo, colNo);
   }
+
   if(charCodes[currentChar] != CHAR_RPAR){
     skipComment();
   }else{
@@ -116,7 +115,7 @@ Token* readConstChar(void) {
 
 Token* getToken(void) {
   Token *token;
-  int ln, cn;
+  // int ln, cn;
 
   if (currentChar == EOF) 
     return makeToken(TK_EOF, lineNo, colNo);
@@ -174,7 +173,21 @@ Token* getToken(void) {
   case CHAR_PERIOD: //Dấu .
     token = makeToken(SB_PERIOD, lineNo, colNo);
     readChar();
+    return token;
+  case CHAR_EXCLAIMATION:    //Dấu !
+    token = makeToken(TK_NONE, lineNo, colNo);
+    readChar();
+    if(charCodes[currentChar] == CHAR_EQ){    //Nếu kí tự tiếp theo là '=' thì sẽ là != (SB_NEQ)
+      token->tokenType = SB_NEQ;
+      readChar();
+    }
     return token; 
+  case CHAR_COMMA: //Dấu .
+    token = makeToken(SB_COMMA, lineNo, colNo);
+    readChar();
+    return token;
+  case CHAR_SINGLEQUOTE: //Dấu '
+    return readConstChar();
   //..
   default:
     token = makeToken(TK_NONE, lineNo, colNo);
