@@ -16,15 +16,17 @@
 extern int lineNo;
 extern int colNo;
 extern int currentChar;
+extern FILE *inputStream;
 
 extern CharCode charCodes[];
 
 /***************************************************************/
-char readNextChar(){            //Kiểm tra kí tự phía trước là gì
-  char c = getc(inputStream);
+int readNextChar(){            //Kiểm tra kí tự phía trước là gì
+  int c = getc(inputStream);
   fseek(inputStream, -1, SEEK_CUR);
   return c;
 }
+
 
 void skipBlank() {
   while (charCodes[currentChar] == CHAR_SPACE)
@@ -34,10 +36,16 @@ void skipBlank() {
 void skipComment() {    //Commment start (*, end *)
   // TODO
   readChar();
-  while(charCodes[currentChar] != CHAR_TIMES)
+  while(charCodes[currentChar] != CHAR_TIMES && (currentChar != EOF)){
     readChar();
+  }
+  if(currentChar == EOF){
+    error(ERR_ENDOFCOMMENT, lineNo, colNo);
+  }
   if(charCodes[currentChar] != CHAR_RPAR){
     skipComment();
+  }else{
+    readChar();
   }
 }
 
@@ -45,12 +53,13 @@ Token* readIdentKeyword(void) {
   // TODO
   int i = 0;
   Token *token = makeToken(TK_IDENT, lineNo, colNo);
-  while(charCodes[currentChar] == CHAR_LETTER){
+  while((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT)){
+    if(currentChar)
     token->string[i] = currentChar;
     token->string[++i] = '\0';
     readChar();
   }
-  tokenType type = checkKeyword(token->string);
+  TokenType type = checkKeyword(token->string);
   if (type == TK_NONE){
     return token;
   } else {
@@ -61,6 +70,14 @@ Token* readIdentKeyword(void) {
 
 Token* readNumber(void) {
   // TODO
+  int i=0;
+  Token *token = makeToken(TK_NUMBER, lineNo, colNo);
+  while(charCodes[currentChar] == CHAR_DIGIT){
+    token->string[i] = currentChar;
+    token->string[++i] = '\0';
+    readChar();
+  }
+  return token;
 }
 
 Token* readConstChar(void) {
@@ -113,15 +130,19 @@ Token* getToken(void) {
     // ....
     // TODO
   case CHAR_LPAR:
-    if (charCodes[readNextChar()] == CHAR_TIMES){
-      readChar();
+    readChar();
+    if (charCodes[currentChar] == CHAR_TIMES){
       skipComment();
       return getToken();
     } else {
       token = makeToken(SB_LPAR, lineNo, colNo);
-      readchar();
+      readChar();
       return token;
     }
+  case CHAR_SEMICOLON:
+    token = makeToken(SB_SEMICOLON, lineNo, colNo);
+    readChar(); 
+    return token;
     // ....
   default:
     token = makeToken(TK_NONE, lineNo, colNo);
