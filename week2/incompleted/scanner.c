@@ -23,10 +23,9 @@ extern CharCode charCodes[];
 /***************************************************************/
 
 
-//Chú ý: file example3,4,5,6,7 có định dạng CRLF, cần phải convert về LF
 
 void skipBlank() {
-  while (charCodes[currentChar] == CHAR_SPACE)
+  while (charCodes[currentChar] == CHAR_SPACE && currentChar != EOF)
     readChar();
 }
 
