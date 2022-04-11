@@ -5,4 +5,4 @@
 ./scanner ../test/example4.kpl | diff ../test/result4.txt -
 # ./scanner ../test/example5.kpl | diff ../test/result5.txt -
 ./scanner ../test/example6.kpl | diff ../test/result6.txt -
-# Example 1 và example5 đang bị lỗi phần result, không nên test 2 file này
+# Example 1 và example5 đang bị lỗi phần result, không nên test trên 2 file này
