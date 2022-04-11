@@ -117,9 +117,9 @@ Token* getToken(void) {
   Token *token;
   // int ln, cn;
 
-  if (currentChar == EOF) 
+  if (currentChar == EOF){ 
     return makeToken(TK_EOF, lineNo, colNo);
-
+  }
   switch (charCodes[currentChar]) {
   case CHAR_SPACE: skipBlank(); return getToken();
   case CHAR_LETTER: return readIdentKeyword();
