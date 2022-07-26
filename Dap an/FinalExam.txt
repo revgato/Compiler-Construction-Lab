@@ -1,0 +1,114 @@
+1. Điều kiện bắt buộc với một văn phạm phân tích cú pháp theo trên xuống tiền định ==> Văn phạm LL(k)
+
+2. Công cụ mô tả từ tố ngôn ngữ lập trình ==> Biểu thức chính quy
+
+3. Thông tin ko được lưu trữ trong bảng ký hiệu về một phạm vi tương ứng với chương trình ==> Hàm và thủ tục ko cần khai báo
+
+4. Thuộc tính tổng hợp được tính trên cây phân tích cú pháp có chú thích ==> (tổng hợp: lá->gốc, kế thừa: nút gốc trên hoặc lá ngang hàng) Đ/a: từ dưới lên 
+
+Khai báo --> kế thừa, khi sử dụng --> tổng hợp 
+
+5. Văn phạm vô nghĩa nếu: tập kí hiệu kết thúc và tập ký hiệu ko kết thúc có chưa ký hiệu chung/tồn tại vế trái của một sản xuất là ký hiệu kết thúc
+
+(còn tồn tại vế trái có nhiều hơn > ký hiệu --> phi ngữ cảnh)
+
+6. Trong stack của bộ phân tích cú pháp tiền định có thể chứa: mọi ký hiệu của văn phạm
+
+7. Trong các văn phạm sau, văn phạm nào là LL(k): S -> 1S0, S -> e
+
+LL1: vế phải đầu, 2 có thể sinh ra tập ký hiệu đầu nhưng 2 tập giao nhau = rỗng: S->aSb|c
+										S->aSb|ab -> LL(2). First1(alpha1) = {aa}
+												    First2(alpha2) = {ab}
+S->aSb|e 
+
+Điều kiện bhận kế LL(1) 
+	A -> a1|a2|...|an   First(ai) giao First(aj) = rỗng
+	Nếu ai => e: FOLLOW(A) giao First(aj) = rỗng
+
+8. Đâu là kỹ thuật để lệnh if trong KPL có thể phân tích cú pháp = pp tiền định trên xuống: nhân tử trái
+
+9. Khẳng định đúng về cây phân cú pháp có chú giải: nó chứa tất cả các thuộc tính của tất cả các nút
+
+10. Linker là : kết nối các thư viện (module) của chương trình)
+
+11. Cho KPL a:=1. Nếu a là tên mooth tủ tục thì lỗi nào xảy ra --> lỗi ngữ nghĩa
+
+12. cho vp S->AB, A->aA|b, B->bB|c. Ô M[B,a] của bảng pt tiền định có giá trị là: Lỗi 
+
+13. Dạng lệnh nào trong mô tả không thể đứng cùng một khối: Lệnh đầu của chu trình 
+
+	3 lệnh đứng đầu 1 khối:  lệnh đầu chương trình(con), đích đến GO TO, đứng sau GO TO
+
+14. Khặng định đúng cho lớp ngôn ngữ LL(1): Tồn tại văn phạm đệ quy tái tương đương với LL(1)
+
+15. Khẳng định đúng:
+
+16. Lệnh nào dưới đây có mô tả s[t+2] := b, s[t+3]:=pc; s[t+4]:=base(p); :=t+1, pc:=q; với t là đỉnh stack: CALL	
+
+17. Xử lý nào là khử đệ quy trái : chuyển đq trái -> đq phải 
+
+18. Khẳng định đúng với cấu trúc mảng KPL : Cho dùng mảng với số chiều tùy 
+
+19. Khăngr định đúng với EBNF : Cặp [] cỉ một đối tượng có thể xuất hiện hoặc không
+
+20. Phần mềm dịch từ một ngôn ngữ -> mã máy -> thực thi: Bộ xử lý ngôn ngữ
+
+21. Khẳng định đúng: Bộ PTTV không cần quan tâm đến văn phạm của ngôn ngữ
+
+22. Thứ tự đúng: Preprocessor->Compiler->Assembler->Linker
+
+23. Câu lệnh viết bằng mã 3 địa chỉ : a:=t+b (tối đa 1 toán tử được thực thi ở mỗi bước, khi dùng mảng rồi thì không cần toán tử nữa)
+
+24. Văn phạm nhập nhằng: S->00S, S->S1, S->1 (Có 1 kt kết thúc S, 0 sinh ra nằm bên trái, 1 bên phải)			 
+
+25. Đồ thị cho thấy mối liên hệ giữa các khối cơ sở gọi là : Contrl Flow Graph
+
+26. Chpo văn phạm: E->E-F|E+F|F
+		   F->F*F|id 
+Khẳng định đúng là: + và - có cùng thứ thự ưu tiên 
+(Vẽ cây xuống, nếu ở dưới thì thứ tự ưu tiên cao hơn)
+
+27. Mỗi sơ đồ cú pháp được xây dựng cho một: cho một ký hiệu không kết thúc ở vế trái
+
+28. Cho văn phạm với các sản xuất: S->aB|bA|e
+				   A->aS|bAA (baSa)
+				   B->b
+Văn phạm này không là LL(1) vì: văn phạm vi phạm điều kiênj LL(1)
+
+29. Xét hàm checkKeyword trong bộ phân tích từ vựng: <..code...> ---> ìf... return  keywword[i].tokenType
+
+
+30. Hãy hco biết tỏng các thao tác say, thao tác thuộc phân tích từ vựng ?
+Kiểm tra chú tích có diểm kết thúc hay ko
+
+31. Cho văn phạm với tập ký hiệu kết thúc ơa, ;, <, >,] và các sản xuất S-> <L|a
+L->aR|<LR
+R->>|;L 
+Câu <<a>;a> có bao nhiêu cây phân tích cú pháp khác nhau: 1
+
+32. Chp văn phạm G=(N,T,P,S) với N=[S', S, B, E, J, L], T = {;,.,:=,(.).,}, P:
+S'->S
+...
+Khẳng định đúng:
+
+33. Cho G viết trên EBNF. -- > G là đơn nghĩa. Nhìn vào luật có and , or --> nhập nhằng
+
+34. Xử lý theo phương pháp đệ quy trên xuống cho 1 tập các sơ đồ cú páp của nn lập trình. mỗi lý hiệu ko kết thúc trên số đó được gọi thành một lời gọi thủ tục
+
+35. Loại bỏ chức năng con hcung 
+
+36. A
+
+37. A-3, B-1, C-4, D-1
+
+38. 2 + 3*5 + 6*4
+
+39. có bao nhiêu từ tố từ vị
+
+Từ tố: program, ct, vả, y, :, integer
+
+từ
+
+40.
+
+

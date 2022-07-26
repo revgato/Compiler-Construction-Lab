@@ -1,0 +1,17 @@
+program test;
+var d:integer;
+function WD(d:integer):char;
+begin
+    d := readi;
+    if d = 1 then WD := 'C'
+    else if d = 2 then WD := 'H'
+    else if d = 3 then WD := 'B'
+    else if d = 4 then WD := 'T'
+    else if d = 5 then WD := 'N'
+    else if d = 6 then WD := 'S'
+    else if d = 7 then WD := 'Y'
+end;
+begin
+    call WD(d);
+end.
+    

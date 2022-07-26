@@ -1,0 +1,14 @@
+program Test;
+var i:integer;
+    n:integer;
+    sum:integer;
+    A : array(.100.) of integer;
+begin
+    n := readi;
+    sum := 0;
+    for i := 1 to n do
+        A(.i.) := readi;
+    for i := 1 to n do
+        sum := sum + A(.i.);
+    call writei(sum);
+end.

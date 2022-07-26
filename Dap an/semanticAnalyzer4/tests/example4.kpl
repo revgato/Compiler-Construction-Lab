@@ -1,0 +1,10 @@
+PROGRAM  EXAMPLE4;  (* Example 4 *)
+CONST MAX = 10;
+TYPE T = ARRAY(.4.) OF INTEGER;
+VAR  A : ARRAY(. 2 .) OF T;
+     N : INTEGER;
+     CH : CHAR;
+
+BEGIN
+  N := A(.3.)(.1.) + 5;
+END.  (* Example 4 *)

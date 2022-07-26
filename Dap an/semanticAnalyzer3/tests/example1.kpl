@@ -1,0 +1,15 @@
+Program Example1; (* Example 1 *)
+
+Function f(n: integer):integer;
+Begin
+    f := 5;
+    g = 7;
+End;
+
+Function g(x: integer):integer;
+Begin
+    f:= 7;
+End;
+
+Begin
+End. (* Example 1 *)

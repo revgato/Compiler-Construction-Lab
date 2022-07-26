@@ -1,0 +1,6 @@
+program Test;
+var i:integer;
+begin
+    i := readi;
+    call writei(i);
+end.

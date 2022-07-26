@@ -1,0 +1,18 @@
+program main;
+var input: integer;
+
+procedure WD (day: integer);
+    begin
+        if day = 1 then call writec('C') else
+        if day = 2 then call writec('H') else
+        if day = 3 then call writec('B') else
+        if day = 4 then call writec('T') else
+        if day = 5 then call writec('N') else
+        if day = 6 then call writec('S') else
+        if day = 7 then call writec('Y') else call writec('0');
+    end;
+
+begin
+    input:=readi;
+    call WD(input);
+end.

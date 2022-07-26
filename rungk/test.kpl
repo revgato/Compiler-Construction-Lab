@@ -1,0 +1,15 @@
+program gk;
+var diem : integer;
+begin
+    diem := readi;
+    if diem < 4 then
+        call writec('F')
+    else if diem < 5 then
+        call writec('D')
+    else if diem < 7 then
+        call writec('C')
+    else if diem < 9 then
+        call writec('B')
+    else if diem < 11 then
+        call writec('A');
+end.

@@ -1,0 +1,22 @@
+PROGRAM assignment2; (* Tinh tong day so nguyen *)
+
+CONST MAX = 10;
+
+VAR     A: ARRAY(. 10 .) OF INTEGER;
+        I: INTEGER;
+        N: INTEGER;
+        S: INTEGER;
+
+BEGIN
+    S := 0;
+
+    N := READI;
+    FOR I := 1 TO N DO
+        A(.I.) := READI;
+
+    FOR I := 1 TO N DO
+        S := S + A(.I.);
+
+    CALL WRITEI(S);
+    CALL WRITELN;
+END. (* assignment2 *)

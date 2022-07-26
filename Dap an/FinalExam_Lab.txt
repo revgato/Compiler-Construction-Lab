@@ -1,0 +1,42 @@
+BÁO CÁO CUỐI KỲ CHƯƠNG TRÌNH DỊCH 
+
+Bốc câu hỏi -> 30 phút chuẩn bị -> trả lời 
+20% báo cáo + 80% vấn đáp
+
+
+Nội dung hỏi: 
+- Ngôn ngữ KPL
+
+1. Bạn hãy thay dổi example 4 sao cho in ra phần tử lớn nhất trong mảng --> viết trong begin chương trình chính.
+Thay đổi code để gây lỗi INVALID_COMPARATOR
+Sửa 14 lỗi cú pháp ở code ví dụ.
+
+2. Thực hiện bài phân tích ngữ nghĩa example 3. Chỉ ra tên các đối tượng có thể dùng mà ko cần khai báo.
+--> xử lý trong lookupObject 
+biến đc hàm hay thủ tục -> initSymtab 
+
+
+
+Từ vùng -> xử lý (
+Cú pháp -> sửa lỗi
+
+
+Nhiều định danh trong một vị trí : bên trái / vế phải (phéo cộng -> dùng hàm , dùng biến ->checkDeclareIdent - có định danh nhưng chưa)
+
+Trong lệnh for chỉ được dùng biến -> checkDeclearedVaribale
+Hăng -> checkDecalaredConstant 
+Vế trái/phải lệnh gán : nhiều định danh khác nhau: xem ident tồn tại trong bảng ký hiệu hay chưa (Hiện hành hoặc beeng ngoài --> lookupObject-xuất phát từ 1 phạm vị ra đến ngoài xùng rồi xem trong globalObject)
+
+Đệ quy trên xuống như thế nào :
+
+1. Từ vựng xử lý như thế nào 
+- Nhìn chung KPL là LL ko còn đê quụy trái -> sử dụng nhân tử trái
+2 lệnh vi phạm LL(1) -> lệnh gán và factor
+
+- Quá trình: Sơ đồ phân tích từ vựng -> cú pháp->ngữ nghĩa -> sinh mã 
+
+- Bộ phân tihcs từ vựng: bộ phân tích từ vựng để làm gì, sử dụng cấu trúc dữ liệu gì, các từ vựng, các hàm quan trọng nhất (vd: skipComment, kiểm soát độ dài định danh,...)
+
+2. Ngữ nghĩa 
+Ngữ nghĩa là gì
+2 vấn đè quan trọng nhất: quản lý phạm vi, kiểm tra kiểu,..)

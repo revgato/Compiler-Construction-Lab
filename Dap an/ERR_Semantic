@@ -1,0 +1,142 @@
+semanticAnalyzer 3
+
+1. ERR_UNDECLARED_TYPE
+
+Example 4: xoa bo TYPE T = INTEGER;
+
+PROGRAM  EXAMPLE4;  (* Example 4 *)
+CONST MAX = 10;
+TYPE T = INTEGER;
+VAR  A : ARRAY(. 10 .) OF T;
+     N : INTEGER;
+     CH : CHAR;
+
+
+2. ERR_UNDECLARED_IDENT
+
+Example 1:
+Function f(n: integer):integer;
+Begin
+    f := 5;
+    g = 7;
+End;
+
+Function g(x: integer):integer;
+Begin
+    f:= 7;
+End;
+
+3. ERR_UNDECLARED_CONSTANT
+Example 4:
+
+PROGRAM  EXAMPLE4;  (* Example 4 *)
+CONST MAX = 10;
+TYPE T = INTEGER;
+VAR  A : ARRAY(. 10 .) OF T;
+     N : INTEGER;
+     CH: CHAR;
+
+PROCEDURE INPUT;
+CONST MIN=MA;
+
+
+4. ERR_UNDECLARED_VARIABLE
+
+Program Example2; (* Factorial *)
+
+Var n : Integer;
+
+Function F(n : Integer) : Integer;
+  Begin
+    If n = 0 Then F := 1 Else F := N * F (N - 1);
+    For i := 0 To N Do
+      Call WriteI(F(i));
+
+  End;
+
+Begin
+  For n := 1 To 7 Do
+    Begin
+      Call WriteLn;
+      Call WriteI( F(n));
+    End;
+End. (* Factorial *)
+
+-> Su dung mot bien chua duoc khai bao
+
+
+
+5. ERR_UNDECLARED_FUNCTION
+
+
+
+
+6. ERR_UNDECLARED_PROCEDURE
+
+Example 4:
+PROCEDURE OUTPU;
+VAR I : INTEGER;
+BEGIN
+  FOR I := 1 TO 10 DO
+     BEGIN
+       CALL WRITEI(A(.I.));
+       CALL WRITELN;
+     END
+END;
+
+-> sua lai ten cua thu tuc
+hoac:
+
+CALL OUTPU;
+
+7. ERR_DUPLICATE_IDENT
+
+Program Example2; (* Factorial *)
+
+Var n : Integer;
+    n : char;
+
+
+Chú ý: sd lookupOject để kiểm tra tên có trùng với owner của currentScope hay ko (ownwer: tên function, hàm, thử tục chương trình tương ứng với block)
+chỗ nào sd luật phạm vi gần nhất -> sd được lookupOject
+
+- Tại sao có các hàm về Variable, Constant nhưng vẫn phải check Indent
+
+- Khi nào sử dụng DuplicateIndent, DuplicateConstant, DuplicateType
+
+- Check function return --> lỗi
+CheckDeclaredLValue (semantics.c)
+  // if(obj->kind == OBJ_FUNCTION && obj != symtab->currentScope->owner)
+  //   error(ERR_INVALID_LVALUE, currentToken->lineNo, currentToken->colNo);
+
+- Thay tên program = INPUT - example 4 --> INPUT được lưu ở đâu (program)
+INPUT (procedure sẽ đc lưu objectLíst do ko có lỗi --> INPUT (program) sẽ lưu ở chỗ khác ? )
+
+- CheckDeclaredType được sử dụng ở đâu ? (ở phần compileType kiểm tra kiểu người dùng định nghĩa, kiểm tra xem là định danh type đã được khai báo và lấy type thực tế)
+
+- CheckDeclaredVariable: trong vòng lặp for, (khi duyệt factor, trong lệnh gán )
+
+
+
+
+semanticAnalyzer 4
+
+1. Kiểm tra trường hợp khai thừa chiều và thiếu chiều.
+
+2. CompileLValue : Kiểm tra kiểu dữ liệu bên vế trái
+
+3. Trong for có phép giống như phép gán --> chỉ có kiểu var --> có 2 kiểu dữ liệu cơ bản (integer & char)
+
+4. Tham số một hàm có là 1 mảng được ko ? (quy định trong cú pháp) --> ko, kiểu tham số là Basic Type
+
+5. Chỉ số chỉ có một kiểu Integer
+
+Dạng lệnh của máy đích và các lệnh cần dùng
+
+
+
+Vấn đề ký tự: Biểu thức có dùng ký tự được không
+Khai biến mảng dung biến đơn ? hoặc mảng ít chiều hơn ?
+khai bóa biến đơn dùng biến ,mảng hoặc biến mảng nhưng ko có chỉ số.
+-> compileLValue
+Nếu mảng

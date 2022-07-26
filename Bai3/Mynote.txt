@@ -1,0 +1,5 @@
+Nếu ko có var thì sẽ là biến đc truyền từ bên ngoài vào, ko thay đổi đc giá trị. Có var thì là khai báo mới.
+Ở slide 9, kí tự lỗi ở phần expression (thứ 4) là kí tự !=, file pdf bị lỗi font.
+Đọc từng cái, return về giá trị tiếp theo để next pha
+
+Nhìn văn phạm sẽ dễ code hơn là nhìn sơ đồ

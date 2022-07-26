@@ -1,0 +1,6 @@
+PROGRAM CONG;
+var x:Integer;
+    y:Integer;
+BEGIN 
+    x := y;
+END.

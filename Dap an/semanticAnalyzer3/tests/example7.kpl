@@ -1,0 +1,17 @@
+Program Example7;
+
+Procedure t(x:Integer);
+Var t:Integer;
+Begin
+   t:=1;
+End;
+
+Function f(x:Integer): Integer;
+Var f:char;
+Begin
+  f:=x+x;
+End;
+
+Begin
+    Call t(1);
+End.
